@@ -11,7 +11,18 @@ class Category(models.Model):
     class Meta:
         verbose_name = 'categoria'
         verbose_name_plural = 'categorias'
+        
+        
+# Modelo para los países
+class Country(models.Model):
+    name = models.CharField(max_length=50, unique=True, verbose_name="Nombre del País")
 
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = 'país'
+        verbose_name_plural = 'países'
 # Modelo para las marcas de productos
 class Brand(models.Model):
     name = models.CharField(max_length=50, verbose_name="Nombre de la Marca")
@@ -40,14 +51,16 @@ class Customer(models.Model):
 
 # Modelo para los productos
 class Product(models.Model):
-    codigo = models.CharField(max_length=20, unique=True, verbose_name="Código del Producto")  # Nuevo campo código
+    codigo = models.CharField(max_length=20, unique=True, verbose_name="Código del Producto")
     name = models.CharField(max_length=30, verbose_name="Nombre del Producto")
-    description = models.CharField(max_length=250, verbose_name="Descripcion del Producto")
-    price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="Precio del producto")
+    description = models.CharField(max_length=250, verbose_name="Descripción del Producto")
+    content = models.TextField(verbose_name="Contenido del Producto")
+    origin = models.CharField(max_length=100, verbose_name="Origen del Producto")  # Nuevo campo origen
+    price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="Precio del Producto")
     image = models.ImageField(verbose_name="Imagen del Producto", upload_to="uploads/product")
     category = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name="Categoría")
     brand = models.ForeignKey(Brand, on_delete=models.CASCADE, verbose_name="Marca")
-    disponible = models.BooleanField(default=True, verbose_name="Disponible")  # Nuevo campo disponible
+    disponible = models.BooleanField(default=True, verbose_name="Disponible")
     
     def __str__(self):
         return self.name
@@ -58,6 +71,7 @@ class Product(models.Model):
 
 # Modelo para los pedidos
 class Order(models.Model):
+    order_number = models.CharField(max_length=20, unique=True, verbose_name="Número de Orden")
     product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name="Producto")
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE, verbose_name="Cliente")
     quantity = models.IntegerField(default=1, verbose_name="Cantidad")
@@ -67,7 +81,7 @@ class Order(models.Model):
     status = models.BooleanField(default=False, verbose_name="Estado")
     
     def __str__(self):
-        return str(self.product)
+        return self.order_number
     
     class Meta:
         verbose_name = 'orden'
