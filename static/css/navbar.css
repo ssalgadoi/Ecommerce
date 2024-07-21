@@ -1,0 +1,27 @@
+/* Ajustar el contenedor de la barra de navegación */
+.navbar {
+    padding-left: 0; /* Elimina el relleno a la izquierda si es necesario */
+    padding-right: 0; /* Elimina el relleno a la derecha si es necesario */
+}
+
+/* Ajustar la distribución del contenido */
+.navbar .container {
+    display: flex;
+    justify-content: space-between; /* Distribuye el espacio entre el ícono y los enlaces */
+    align-items: center; /* Alinea verticalmente el ícono y el menú */
+}
+
+/* Asegurarse de que el ícono tenga un margen adecuado */
+.navbar-brand {
+    margin-right: auto; /* Mueve el ícono hacia la izquierda */
+}
+
+.navbar-toggler {
+    margin-left: auto; /* Mueve el botón del menú hacia el extremo derecho */
+}
+
+/* Ajustar el tamaño del ícono si es necesario */
+.navbar-brand img {
+    max-width: 150px; /* Ajusta el tamaño máximo del ícono */
+    height: auto; /* Mantiene la proporción del ícono */
+}
