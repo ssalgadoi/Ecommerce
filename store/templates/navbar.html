@@ -1,7 +1,19 @@
 {% load static %}
- <!-- Franja superior -->
- <div class="top-banner">
+<!-- Franja superior -->
+<div class="top-banner">
   Compra con hasta 6 cuotas sin interés
+  {% if user.is_authenticated %}
+  <a href="{% url 'logout' %}" class="logout-button">
+    <i class="fas fa-sign-out-alt"></i> Logout
+  </a>
+  {% else %}
+  <a href="{% url 'login' %}" class="login-button">
+    <i class="fas fa-sign-in-alt"></i> Login
+  </a>
+  <a href="{% url 'register' %}" class="login-button">
+    <i class="fa-regular fa-user"></i>Registrate
+  </a>
+  {% endif %}
 </div>
 <nav class="custom-navbar navbar navbar-expand-lg">
   <!-- Contenedor de elementos de la barra de navegación -->
@@ -43,5 +55,4 @@
       </ul>
     </div>
   </div>
-  
 </nav>

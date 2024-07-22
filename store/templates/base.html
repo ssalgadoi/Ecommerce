@@ -9,6 +9,8 @@
         <meta name="author" content="" />
 
         <title>{% block title %}{% endblock %} | Cherry Chile</title>
+        <!--Font Awesome-->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
         <!-- Favicon-->
         <link rel="icon" type="image/x-icon" href="{% static 'img/IconoCherry.png'%}" />
         <!-- Bootstrap icons-->
@@ -19,9 +21,15 @@
     </head>
     <body>
         {% include 'navbar.html' %}
-   
+        {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            {% endfor %}
+        {% endif %}
         {% block content %}
-            
         {% endblock content %}
    
         
