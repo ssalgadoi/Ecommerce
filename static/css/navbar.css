@@ -1,27 +1,77 @@
-/* Ajustar el contenedor de la barra de navegación */
-.navbar {
-    padding-left: 0; /* Elimina el relleno a la izquierda si es necesario */
-    padding-right: 0; /* Elimina el relleno a la derecha si es necesario */
+.custom-navbar {
+  display: flex;
+  flex-direction: column; /* Organiza los elementos en una columna */
+  padding: 10px; /* Ajusta el padding según sea necesario */
 }
 
-/* Ajustar la distribución del contenido */
-.navbar .container {
-    display: flex;
-    justify-content: space-between; /* Distribuye el espacio entre el ícono y los enlaces */
-    align-items: center; /* Alinea verticalmente el ícono y el menú */
+.navbar-content {
+  display: flex;
+  align-items: center; /* Centra el contenido verticalmente */
+  width: 100%; /* Asegura que el contenedor ocupe todo el ancho */
+  position: relative; /* Permite la colocación relativa del contenido */
 }
 
-/* Asegurarse de que el ícono tenga un margen adecuado */
-.navbar-brand {
-    margin-right: auto; /* Mueve el ícono hacia la izquierda */
+.logo-form-container {
+  display: flex;
+  align-items: center; /* Centra el logo verticalmente */
+  position: absolute; /* Permite centrar el logo en el contenedor principal */
+  left: 50%;
+  transform: translateX(-50%); /* Centra el logo horizontalmente */
+  margin-top: 40px; /* Ajusta el espacio arriba del logo */
+  margin-bottom: 20px; /* Ajusta el espacio debajo del logo */
+}
+
+.custom-logo {
+  display: flex;
+  align-items: center; /* Centra verticalmente la imagen */
+}
+
+.custom-logo img {
+  max-height: 70px; /* Ajusta la altura máxima de la imagen según sea necesario */
+  width: auto; /* Mantiene la proporción de la imagen */
+}
+
+.form-container {
+  display: flex;
+  align-items: center; /* Alinea verticalmente el contenido del formulario */
+  margin-left: auto; /* Mueve el formulario a la derecha del contenedor */
 }
 
 .navbar-toggler {
-    margin-left: auto; /* Mueve el botón del menú hacia el extremo derecho */
+  margin-right: 10px; /* Espacio entre el botón de colapso y el logo */
 }
 
-/* Ajustar el tamaño del ícono si es necesario */
-.navbar-brand img {
-    max-width: 150px; /* Ajusta el tamaño máximo del ícono */
-    height: auto; /* Mantiene la proporción del ícono */
+.nav-links-container {
+  width: 100%; /* Asegura que el contenedor de enlaces ocupe todo el ancho */
+  display: flex; /* Usa flexbox para alinear los enlaces horizontalmente */
+  justify-content: center; /* Centra los enlaces horizontalmente */
+  margin-top: 40px; /* Añade espacio arriba de los enlaces */
+}
+
+.nav-links {
+  display: flex; /* Muestra los elementos de la lista en línea horizontalmente */
+  padding: 0;
+  margin: 0;
+  list-style: none; /* Quita los puntos de la lista */
+}
+
+.nav-links li {
+  margin: 0 5px; /* Espacio entre los enlaces */
+}
+
+.nav-links a {
+  text-decoration: none; /* Quita el subrayado de los enlaces */
+  color: inherit; /* Usa el color del texto del contenedor */
+}
+
+.header-content {
+  margin-top: 30px; /* Ajusta este valor para bajar el contenido del encabezado */
+}
+
+.top-banner {
+  background-color: #000; /* Color de fondo negro */
+  color: #fff; /* Color de texto blanco */
+  text-align: center; /* Centra el texto */
+  padding: 10px 0; /* Espaciado arriba y abajo */
+  font-size: 16px; /* Tamaño de fuente */
 }

@@ -1,0 +1,14 @@
+   <!-- <ul>
+                {% for category in categories %}
+                    <li >
+                        <a  href="#">{{ category.name }}</a>
+                    </li>
+                {% endfor %}
+            </ul> -->
+            <!-- <form ">
+                <button  type="submit">
+                    <i></i>
+                    Cart
+                    <span">0</span">
+                </button>
+            </form> -->
