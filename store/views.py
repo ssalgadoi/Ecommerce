@@ -1,8 +1,7 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect 
 from .models import Product, Category
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
-from django.shortcuts import render, redirect  
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django import forms
@@ -10,8 +9,7 @@ from .forms import SignUpForm
 
 def home(request):
     products = Product.objects.all()
-    categories = Category.objects.all()
-    return render(request, 'home.html', {'products': products, 'categories': categories})
+    return render(request, 'home.html', {'products': products})
 
 def login_user(request):
     if request.method == "POST":
@@ -30,9 +28,8 @@ def login_user(request):
 
 def logout_user(request):
     logout(request)
-    messages.success(request, ("Te has desconectado...") )
+    messages.success(request, ("Te has desconectado..."))
     return redirect('home')
-
 
 def register_user(request):
     form = SignUpForm()
@@ -52,4 +49,18 @@ def register_user(request):
             return redirect('register')
     else:  
         return render(request, 'register.html', {'form': form})
-    
+
+def product(request, pk):
+    product = Product.objects.get(id=pk)
+    return render(request, 'product.html', {'product': product})
+
+def category(request, foo):
+    foo = foo.replace('-', ' ')
+    categories = Category.objects.all()
+    try:
+        category = Category.objects.get(name=foo)
+        products = Product.objects.filter(category=category)
+        return render(request, 'category.html', {'products': products, 'category': category, 'categories': categories})
+    except Category.DoesNotExist:
+        messages.success(request, ("Esta Categoria no existe!!"))
+        return redirect('home')
