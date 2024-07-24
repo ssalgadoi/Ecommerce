@@ -5,7 +5,7 @@ from .cart import Cart
 
 # Create your views here.
 def cart_summary(request):
-    return render(request, "cart_summary.html", {})
+    return render(request, "cart/cart_summary.html", {})
 
 
 def cart_add(request):
@@ -26,7 +26,7 @@ def cart_add(request):
     return HttpResponseBadRequest('Invalid request method')
     
 def cart_delete(request):
-    return render(request, "cart_delete.html", {})
+    return render(request, "cart/cart_delete.html", {})
 
 def cart_update(request):
-    return render(request, "cart_update.html", {})
+    return render(request, "cart/cart_update.html", {})
