@@ -3,7 +3,114 @@
 {% block title %}Carrito{% endblock %}
 
 {% block content %}
+<br>
+<div class="container">
+    {% if cart_products %}
+        {% for product in cart_products %}
+            <div class="card mb-3">
+                <div class="row g-0">
+                    <div class="col-md-4">
+                        <img src="{{ product.image.url }}" class="img-fluid rounded-start" alt="{{ product.name }}">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <center>
+                                <h5 class="card-title">{{ product.name }}</h5>
+                                <br>
+                                <p class="card-text">{{ product.content }}</p>
+                                <p class="card-text"><small class="text-muted">{{ product.description }}</small></p>
+                                <br>
+                                {% if product.is_sale %}
+                                    <div class="d-flex justify-content-center small text-black bg-warning mb-2 p-2">
+                                        <div class="bi-star-fill"></div>
+                                        <span>&nbsp;&nbsp;¡Ofertas!&nbsp;&nbsp;</span>
+                                        <div class="bi-star-fill"></div>
+                                    </div>
+                                    <div>
+                                        <del class="text-dark">${{ product.price }}</del>
+                                        &nbsp;<span class="text-danger">${{ product.sale_price }}</span>
+                                    </div>
+                                {% else %}
+                                    <div class="text-dark">${{ product.price }}</div>
+                                {% endif %}
+                                <br>
+                                <div class="row justify-content-center">
+                                    <div class="col-md">
+                                        <select class="form-select form-select-sm" id="selected{{product.id}}">
+                                            {% for key, value in quantities.items %}
+                                                {% if key == product.id|slugify %}
+                                                <option selected>{{ value }}</option>
+                                                {% endif %}
+                                            {% endfor %}
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <br>
+                                <a href="{% url 'home' %}" class="btn btn-secondary">Inicio</a>
+                                <button type="button"
+                                        data-index="{{product.id}}" 
+                                        class="btn btn-secondary update-cart">Actualizar</button>
+                                        <button type="button"
+                                        data-index="{{product.id}}" 
+                                        class="btn btn-danger delete-product">Borrar</button>
+                            </center>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+        <strong><h3>Total: ${{ totals }}</h3></strong>
+    {% else %}
+        No hay nada en tu carrito...
+    {% endif %}
+</div>
 
-<!-- Section -->
-
+<script>
+    $(document).on('click', '.update-cart', function(e){
+        e.preventDefault();
+        var productid = $(this).data('index');
+        var product_qty = $('#selected' + productid + ' option:selected').text();
+        $.ajax({
+            type: 'POST',
+            url: '{% url "cart_update" %}',
+            data: {
+                product_id: productid,
+                product_qty: product_qty,
+                csrfmiddlewaretoken: '{{ csrf_token }}',
+                action: 'post'
+            },
+            success: function(json){
+                location.reload();
+            },
+            error: function(xhr, errmsg, err){
+                console.log(xhr.status + ": " + xhr.responseText);
+            }
+        });
+    });
+    // Eliminar productos
+    $(document).on('click', '.delete-product', function(e){
+        e.preventDefault();
+        var productid = $(this).data('index');
+        $.ajax({
+            type: 'POST',
+            url: '{% url "cart_delete" %}',
+            data: {
+                product_id: productid,
+                csrfmiddlewaretoken: '{{ csrf_token }}',
+                action: 'post'
+            },
+            success: function(json){
+                location.reload();
+            },
+            error: function(xhr, errmsg, err){
+                console.log(xhr.status + ": " + xhr.responseText);
+            }
+        });
+    });
+</script>
 {% endblock %}

@@ -23,3 +23,94 @@
             </div>
             {% endfor %}
         {% endif %}
+
+
+
+
+  def __len__(self):
+        # Retornar el número total de productos en el carrito
+        return len(self.cart)
+    
+   
+    
+    def get_quants(self):
+        # Suponiendo que self.cart es un diccionario donde las claves son IDs de productos
+        # y los valores son las cantidades de esos productos
+        quantities = {product_id: quantity for product_id, quantity in self.cart.items()}
+        return quantities
+
+
+
+{% extends 'base/base.html' %}
+
+{% block title %}Resumen del Carrito{% endblock %}
+
+{% block content %}
+
+<!-- Section -->
+<br>
+<div class="container">
+    {% if cart_products %}
+        <!-- Iterar sobre cada producto en el carrito -->
+        {% for item in cart_products %}
+            <div class="card mb-3">
+                <div class="row g-0">
+                    <div class="col-md-4">
+                        <!-- Mostrar imagen del producto -->
+                        <img src="{{ item.product.image.url }}" class="img-fluid rounded-start" alt="{{ item.product.name }}">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <center>
+                                <!-- Nombre del producto -->
+                                <h5 class="card-title">{{ item.product.name }}</h5>
+                                <br>
+                                <!-- Descripción del producto -->
+                              
+                                <p class="card-text"><small class="text-muted">{{ item.product.description }}</small></p>
+                                <!-- Mostrar precio del producto -->
+                                {% if item.product.is_sale %}
+                                    <div class="d-flex justify-content-center small text-black bg-warning mb-2 p-2">
+                                        <div class="bi-star-fill"></div>
+                                        <span>&nbsp;&nbsp;¡Ofertas!&nbsp;&nbsp;</span>
+                                        <div class="bi-star-fill"></div>
+                                    </div>
+                                    <!-- Precio con descuento -->
+                                    <div>
+                                        <del class="text-dark">${{ item.product.price }}</del>
+                                        &nbsp;<span class="text-danger">${{ item.product.sale_price }}</span>
+                                    </div>
+                                {% else %}
+                                    <!-- Precio normal -->
+                                    <div class="text-dark">${{ item.product.price }}</div>
+                                {% endif %}
+                                <br>
+                                <!-- Mostrar cantidad del producto -->
+                                <div class="text-dark">Cantidad: {{ item.quantity }}</div>
+                                <div class="text-dark">Total por producto: ${{ item.total_product_price }}</div>
+                                <br>
+
+                            </center>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+        <!-- Mostrar precio total del carrito -->
+        <div class="container mt-4">
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <div class="alert alert-info" role="alert">
+                        <h4 class="alert-heading">Total a pagar</h4>
+                        <p class="lead">$ {{ total_price }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <!-- Mensaje si no hay productos en el carrito -->
+        No hay nada en tu carrito...
+    {% endif %}
+</div>
+
+{% endblock %}

@@ -3,7 +3,6 @@
 {% block title %}Productos{% endblock %}
 
 {% block content %}
-
 <div class="container">
     <br>
     <br>
@@ -16,7 +15,7 @@
                 <div class="card-body">
                     <center>
                         <h5 class="card-title">{{ product.name }}</h5>
-                        <br>
+                        <div>
                         <p class="card-text">{{ product.content }}</p>
                         <p class="card-text"><small class="text-muted">{{ product.description }}</small></p>
                         {% if product.is_sale %}
@@ -33,17 +32,42 @@
                         {% else %}
                             <!-- Product price -->
                             <div class="text-dark">${{ product.price }}</div>
-                            <br>ID: {{ product.id }}
                         {% endif %}
-                            <br>
+                        <br>
+                        <!-- Dropdown menu -->
+                        <div class="col-md-2">
+                            Cantidad
+                        </div>
+                            
+                        </br>
+                        <div class="row justify-content-center">
+                            <div class="col-md">
+                                <select class="form-select form-selec-sm" id="qty-cart" >
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <br>
+                        ID: {{ product.id }}
+                        <br>
                         <a href="{% url 'home' %}" class="btn btn-secondary">Inicio</a>
-                        <button type="button" value="{{ product.id }}" class="btn btn-secondary" id="add-cart">Añadir al Carro</button>
+                        <button type="button" 
+                                value="{{ product.id }}" 
+                                class="btn btn-secondary" 
+                                id="add-cart">
+                        Añadir al Carro</button>
                     </center>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
 
 <script>
     // Compruebe si el botón está presionado
@@ -54,14 +78,17 @@
             url: '{% url "cart_add" %}',
             data: {
                 product_id: $('#add-cart').val(),
+                product_qty: $('#qty-cart option:selected').text(),
                 csrfmiddlewaretoken: '{{ csrf_token }}',
                 action: 'post'
             },
             success: function(json){
-                console.log(json);
+                //console.log(json);
+                document.getElementById("cart_quantity").
+                textContent = json.qty
             },
             error: function(xhr, errmsg, err){
-                console.error(xhr.status + ": " + xhr.responseText);
+
             }
 
         });
