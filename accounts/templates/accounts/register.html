@@ -1,27 +1,37 @@
 {% extends 'base/base.html' %}
 
-{% block title %}Registrarte{% endblock %}
+{% block title %}Registro{% endblock %}
 
 {% block content %}
-
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-8">
-            <br>
-            <form method="POST" action="{% url 'register' %}">
-                {% csrf_token %}
-
-                {{ form.as_p}}
+    {% if messages %}
+        <div class="alert-container">
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+    
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-8">
                 <br>
-                <button type="submit" class="btn btn-secondary">Register</button>
-                
-            </form>
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
+                <form method="POST" action="{% url 'register' %}">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit" class="btn btn-secondary">Registrarse</button>
+                </form>
+                <br>
+                <!-- Mensaje para los usuarios que ya tienen cuenta -->
+                <div class="text-center">
+                    <p>¿Ya tienes una cuenta?</p>
+                    <div class="button-group">
+                        <a href="{% url 'login' %}" class="btn btn-secondary">Inicia sesión aquí</a>
+                    </div>
+                </div>
+                <br>
+            </div>
         </div>
     </div>
-</div>
 {% endblock %}

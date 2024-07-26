@@ -3,27 +3,40 @@
 {% block title %}Login{% endblock %}
 
 {% block content %}
-
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-8">
-            <br>
-            <form method="POST" action="{% url 'login' %}">
-                {% csrf_token %}
-                <div class="mb-3">
-                    <input type="text" class="form-control" placeholder="Ingresa Tu Nombre" name="username" required>
+    {% if messages %}
+        <div class="alert-container">
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">
+                    {{ message }}
                 </div>
-                <div class="mb-3">
-                    <input type="password" class="form-control" placeholder="Ingresa Tu Contraseña" name="password" required>
+            {% endfor %}
+        </div>
+    {% endif %}
+    
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-8">
+                <br>
+                <form method="POST" action="{% url 'login' %}">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <input type="text" class="form-control" placeholder="Ingresa Tu Nombre" name="username" required>
+                    </div>
+                    <div class="mb-3">
+                        <input type="password" class="form-control" placeholder="Ingresa Tu Contraseña" name="password" required>
+                    </div>
+                    <button type="submit" class="btn btn-secondary">Entrar</button>
+                </form>
+                <br>
+                <!-- Mensaje para los usuarios sin cuenta -->
+                <div class="text-center">
+                    <p>¿No tienes una cuenta?</p>
+                    <div class="button-group">
+                        <a href="{% url 'register' %}" class="btn btn-secondary">Regístrate aquí</a>
+                    </div>
                 </div>
-                <button type="submit" class="btn btn-secondary ">Login</button>
-            </form>
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
+                <br>
+            </div>
         </div>
     </div>
-</div>
 {% endblock %}

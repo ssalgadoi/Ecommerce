@@ -4,49 +4,67 @@
 
 {% block content %}
 
-<!-- Section -->
-<section class="py-5">
-    <div class="container px-4 px-lg-5 mt-5">
-        <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
-            {% for product in products %}
-                <div class="col mb-5">
-                    <div class="card h-100">
-                        <!-- Sale badge -->
-                        {% if product.sale_price %}
-                            <div class="badge bg-dark text-white position-absolute" style="top: 0.5rem; right: 0.5rem">Oferta</div>
-                        {% endif %}
-                        <!-- Product image -->
-                        <img class="card-img-top" src="{{ product.image.url }}" alt="{{ product.name }}" loading="lazy"/>
-                        <!-- Product details -->
-                        <div class="card-body p-4">
-                            <div class="text-center">
-                                <!-- Product name -->
-                                <h5 class="fw-bolder">{{ product.name }}</h5>
-                                <!-- Product price -->
-                                {% if product.sale_price %}
-                                    <div>
-                                        <del>${{ product.price }}</del>
-                                        <span class="text-danger">${{ product.sale_price }}</span>
-                                    </div>
-                                    <!-- Sale indicator -->
-                                    <div class="d-flex justify-content-center small text-bg-warning mb-2 mt-2">
-                                        <div class="bi-star-fill"></div>
-                                        <span>&nbsp;&nbsp;Oferta!&nbsp;&nbsp;</span>
-                                        <div class="bi-star-fill"></div>
-                                    </div>
-                                {% else %}
-                                    <span>${{ product.price }}</span>
-                                {% endif %}
+<!-- Carrusel de Productos en Oferta -->
+<section class="products-carousel">
+    <br>
+    <div id="carouselProducts" class="carousel slide">
+        <div class="carousel-inner">
+            {% for product in products_on_sale %}
+                <div class="carousel-item{% if forloop.first %} active{% endif %}">
+                    <div class="card mb-3">
+                        <div class="row g-0">
+                            <div class="col-md-4">
+                                <img src="{{ product.image.url }}" class="img-fluid rounded-start" alt="{{ product.name }}">
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <center>
+                                        <h5 class="card-title">{{ product.name }}</h5>
+                                        <p class="card-text">{{ product.content }}</p>
+                                        <p class="card-text"><small class="text-muted">{{ product.description }}</small></p>
+                                        {% if product.is_sale %}
+                                            <div class="d-flex justify-content-center small text-black bg-warning mb-2 p-2">
+                                                <div class="bi-star-fill"></div>
+                                                <span>&nbsp;&nbsp;¡Ofertas!&nbsp;&nbsp;</span>
+                                                <div class="bi-star-fill"></div>
+                                            </div>
+                                            <div>
+                                                <del class="text-dark">${{ product.price }}</del>
+                                                &nbsp;<span class="text-danger">${{ product.sale_price }}</span>
+                                            </div>
+                                        {% else %}
+                                            <div class="text-dark">${{ product.price }}</div>
+                                        {% endif %}
+                                        <br>
+                                      
+                                        <br>
+                                    </center>
+                                </div>
                             </div>
                         </div>
-                        <!-- Product actions -->
-                        <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                            <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="{% url 'product' product.id %}">Ver Producto</a></div>
+                    </div>
+                </div>
+            {% empty %}
+                <div class="carousel-item">
+                    <div class="card mb-3">
+                        <div class="card-body text-center">
+                            <p>No hay productos en oferta en este momento.</p>
                         </div>
                     </div>
                 </div>
             {% endfor %}
         </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselProducts" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselProducts" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
     </div>
 </section>
+
+
+
 {% endblock %}

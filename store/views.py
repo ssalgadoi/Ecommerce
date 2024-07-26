@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from store.models import Product, Category
+from store.models import Product, Category, Subcategory
 
 
 
@@ -19,3 +19,20 @@ def category(request, foo):
     except Category.DoesNotExist:
         messages.error(request, "¡Esta categoría no existe!")
         return redirect('home')
+
+def subcategory(request, foo):
+    """Vista para mostrar productos por subcategoría."""
+    foo = foo.replace('-', ' ')
+    categories = Category.objects.all()
+    try:
+        subcategory = Subcategory.objects.get(name=foo)
+        products = Product.objects.filter(subcategory=subcategory)
+        return render(request, 'store/subcategory.html', {'products': products, 'subcategory': subcategory, 'categories': categories})
+    except Subcategory.DoesNotExist:
+        messages.error(request, "¡Esta subcategoría no existe!")
+        return redirect('home')
+
+def category_summary(request, pk):
+    """"""
+    
+    return render(request, 'store/category_summary.html', {})
