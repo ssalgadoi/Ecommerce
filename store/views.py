@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from store.models import Product, Category, Subcategory
+from django.contrib import messages
 
 
 
@@ -30,9 +31,3 @@ def subcategory(request, foo):
         return render(request, 'store/subcategory.html', {'products': products, 'subcategory': subcategory, 'categories': categories})
     except Subcategory.DoesNotExist:
         messages.error(request, "¡Esta subcategoría no existe!")
-        return redirect('home')
-
-def category_summary(request, pk):
-    """"""
-    
-    return render(request, 'store/category_summary.html', {})

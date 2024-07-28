@@ -114,3 +114,29 @@
 </div>
 
 {% endblock %}
+
+
+
+# Verifica si el usuario está autenticado
+    if request.user.is_authenticated:
+        # Si está autenticado, actualiza su perfil
+        current_user = User.objects.get(id=request.user.id)
+        user_form = UpdateUserForm(request.POST or None, instance=current_user)
+        
+        if user_form.is_valid():
+            user_form.save()
+            login(request, current_user)  # Puede no ser necesario ya que el usuario ya está autenticado
+            messages.success(request, "El usuario ha sido actualizado !!")
+            return redirect('home')
+        return render(request, 'accounts/update_user.html', {'user_form': user_form})
+
+    # Verifica si el usuario está intentando acceder a la página desde el proceso de restablecimiento de contraseña
+    elif request.GET.get('password_reset'):
+        # Permite acceso a la página de actualización si el usuario está en proceso de restablecimiento de contraseña
+        user_form = UpdateUserForm(request.POST or None)
+        return render(request, 'accounts/update_user.html', {'user_form': user_form})
+
+    else:
+        # Mensaje de error si el usuario no está autenticado y no está en el proceso de restablecimiento de contraseña
+        messages.error(request, "Debes iniciar sesión para acceder a esa página !!")
+        return redirect('login')

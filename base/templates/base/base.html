@@ -2,31 +2,31 @@
 
 <!DOCTYPE html>
 <html lang="es">
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-        <meta name="description" content="" />
-        <meta name="author" content="" />
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
 
-        <!-- JQuery CDN -->
-        <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <!-- JQuery CDN -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 
-        <title>{% block title %}{% endblock %} | Cherry Chile</title>
-        <!--Font Awesome-->
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-        <!-- Bootstrap CSS -->
-        <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
-    
-        <!-- Favicon-->
-        <link rel="icon" type="image/x-icon" href="{% static 'base/img/IconoCherry.png'%}" />
-        <!-- Bootstrap icons-->
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
-        <!-- Core theme CSS -->
-        <link href="{% static 'base/css/styles.css' %}" rel="stylesheet" />
-        <link href="{% static 'base/css/base.css' %}" rel="stylesheet" />
-    </head>
-    <body>
-        <!-- Bloque para mensajes -->
+    <title>{% block title %}{% endblock %} | Cherry Chile</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="{% static 'base/img/IconoCherry.png'%}" />
+    <!-- Bootstrap icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+    <!-- Core theme CSS -->
+    <link href="{% static 'base/css/styles.css' %}" rel="stylesheet" />
+    <link href="{% static 'base/css/base.css' %}" rel="stylesheet" />
+</head>
+<body>
+    <!-- Bloque para mensajes -->
     <div class="alert-container">
       {% if messages %}
           {% for message in messages %}
@@ -35,115 +35,119 @@
               </div>
           {% endfor %}
       {% endif %}
-  </div>
-       <!-- Franja superior -->
-       <div class="top-banner">
+    </div>
+
+    <!-- Franja superior -->
+    <div class="top-banner">
         <div class="banner-text">
             Compra con hasta 6 cuotas sin interés
         </div>
         <div class="auth-links">
             {% if user.is_authenticated %}
-                <a href="{% url 'logout' %}" class="logout-button">
-                    <i class="fas fa-sign-out-alt"></i> Salir
-                </a>
+                <div class="dropdown">
+                    <a href="#" class="logout-button dropdown-toggle" id="userDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fa-regular fa-user"></i>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
+                        <a class="dropdown-item" href="{% url 'update_user' %}">Actualizar Usuario</a>
+                        <a class="dropdown-item" href="{% url 'update_info' %}">Actualizar Información</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i> Salir</a>
+                    </div>
+                </div>
             {% else %}
                 <a href="{% url 'login' %}" class="login-button">
-                  <i class="fa-regular fa-user"></i> 
+                    <i class="fa-regular fa-user"></i>
                 </a>
-           
             {% endif %}
         </div>
     </div>
-  <nav class="custom-navbar navbar navbar-expand-lg">
-    <!-- Contenedor de elementos de la barra de navegación -->
-    <div class="navbar-content d-flex align-items-center justify-content-between w-100">
-      <!-- Botón de colapso para dispositivos móviles -->
-      <button class="navbar-toggler d-lg-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-  
-      <!-- Contenedor del logo y del formulario -->
-      <div class="logo-form-container d-flex align-items-center">
-        <!-- Logo -->
-        <a href="{% url 'home' %}" class="custom-logo">
-          <img src="{% static 'base/img/IconoCherry.png' %}" alt="Logo de Mi Empresa">
-        </a>
-      </div>
-  
-      
-    <!-- Contenedor del carrito -->
-    <div class="form-container d-flex align-items-center">
-      <form>
-        <a href="{% url 'cart_summary' %}" class="btn btn-outline-dark">
-          <i class="bi-cart-fill me-1"></i>
-          Carrito
-          <span class="badge bg-dark text-white ms-1 rounded-pill" id="cart_quantity">{{ cart|length }} </span>
-        </a>
-      </form>
-  </div>
-    </div>
-  
-    <!-- Contenedor de enlaces con colapso -->
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <div class="nav-links-container">
-        <ul class="nav-links navbar-nav">
-          {% for category in categories %}
-            <li class="nav-item dropdown">
-              <a class="nav-link " href="#" id="navbarDropdown{{ category.id }}" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                {{ category.name }}
-              </a>
-              <ul class="dropdown-menu" aria-labelledby="navbarDropdown{{ category.id }}">
-                {% for subcategory in category.subcategory_set.all %}
-                  <li>
-                    <a class="dropdown-item" href="{% url 'subcategory' subcategory.name %}">{{ subcategory.name }}</a>
-                  </li>
-                {% endfor %}
-              </ul>
-            </li>
-          {% endfor %}
-        </ul>
-      </div>
-    </div>
-      
-  </nav>
-  <header class="bg-dark py-5 header-content">
-    <div class="container px-4 px-lg-5 my-5">
-        <div class="text-center text-white">
-            <h1 class="display-4 fw-bolder">Cherry Chile</h1>
-            <p class="lead fw-normal text-white-50 mb-0">Insumos de Respostería, Cocina y Menaje</p>
+
+    <nav class="custom-navbar navbar navbar-expand-lg">
+        <!-- Contenedor de elementos de la barra de navegación -->
+        <div class="navbar-content d-flex align-items-center justify-content-between w-100">
+            <!-- Botón de colapso para dispositivos móviles -->
+            <button class="navbar-toggler d-lg-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Contenedor del logo y del formulario -->
+            <div class="logo-form-container d-flex align-items-center">
+                <!-- Logo -->
+                <a href="{% url 'home' %}" class="custom-logo">
+                    <img src="{% static 'base/img/IconoCherry.png' %}" alt="Logo de Mi Empresa">
+                </a>
+            </div>
+
+            <!-- Contenedor del carrito -->
+            <div class="form-container d-flex align-items-center">
+                <form>
+                    <a href="{% url 'cart_summary' %}" class="btn btn-outline-dark">
+                        <i class="bi-cart-fill me-1"></i>
+                        Carrito
+                        <span class="badge bg-dark text-white ms-1 rounded-pill" id="cart_quantity">{{ cart|length }}</span>
+                    </a>
+                </form>
+            </div>
         </div>
-    </div>
-</header>
+
+        <!-- Contenedor de enlaces con colapso -->
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <div class="nav-links-container">
+                <ul class="nav-links navbar-nav">
+                    {% for category in categories %}
+                        <li class="nav-item dropdown">
+                            <a class="nav-link" href="#" id="navbarDropdown{{ category.id }}" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                {{ category.name }}
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown{{ category.id }}">
+                                {% for subcategory in category.subcategory_set.all %}
+                                    <li>
+                                        <a class="dropdown-item" href="{% url 'subcategory' subcategory.name %}">{{ subcategory.name }}</a>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <header class="bg-dark py-5 header-content">
+        <div class="container px-4 px-lg-5 my-5">
+            <div class="text-center text-white">
+                <h1 class="display-4 fw-bolder">Cherry Chile</h1>
+                <p class="lead fw-normal text-white-50 mb-0">Insumos de Respostería, Cocina y Menaje</p>
+            </div>
+        </div>
+    </header>
 
     {% block content %}
     {% endblock content %}
-   
-        
 
-        
-        
-        <!-- Footer-->
-        <footer class="py-5 bg-dark">
-            <div class="container"><p class="m-0 text-center text-white">Cherry Chile <span>&copy</span><span id="current-year"></span></p></div>
-        </footer>
-        <!-- Bootstrap core JS-->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-        <!-- Core theme JS-->
-        <script src="{% static 'base/js/scripts.js' %}"></script>
-        <script src="{% static 'base/js/date.js' %}"></script>
-        <script>
-          document.addEventListener('DOMContentLoaded', function () {
-              var alerts = document.querySelectorAll('.alert-container .alert');
-  
-              alerts.forEach(function (alert) {
-                  setTimeout(function () {
-                      alert.classList.add('hidden');
-                      setTimeout(function () {
-                          alert.remove();
-                      }, 300); // Igual al tiempo de la transición
-                  }, 3000); // Tiempo antes de iniciar la transición (5 segundos)
-              });
-          });
-      </script>
-    </body>
+    <!-- Footer -->
+    <footer class="py-5 bg-dark">
+        <div class="container"><p class="m-0 text-center text-white">Cherry Chile <span>&copy</span><span id="current-year"></span></p></div>
+    </footer>
+
+    <!-- Bootstrap core JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Core theme JS -->
+    <script src="{% static 'base/js/scripts.js' %}"></script>
+    <script src="{% static 'base/js/date.js' %}"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var alerts = document.querySelectorAll('.alert-container .alert');
+            alerts.forEach(function (alert) {
+                setTimeout(function () {
+                    alert.classList.add('hidden');
+                    setTimeout(function () {
+                        alert.remove();
+                    }, 300); // Igual al tiempo de la transición
+                }, 3000); // Tiempo antes de iniciar la transición (3 segundos)
+            });
+        });
+    </script>
+</body>
 </html>

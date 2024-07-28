@@ -127,7 +127,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
-    BASE_DIR / "static",
+    '/Users/salgado/Desktop/Ecommerce/base/static',
 ]
 #  Media config
 

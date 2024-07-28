@@ -1,5 +1,6 @@
 from django.db import models
 from datetime import datetime
+from accounts.models import Customer
 
 # Modelo para la categoría de productos
 class Category(models.Model):
@@ -48,20 +49,6 @@ class Brand(models.Model):
         verbose_name = 'marca'
         verbose_name_plural = 'marcas'
 
-# Modelo para los clientes
-class Customer(models.Model):
-    first_name = models.CharField(max_length=30, verbose_name="Nombre del Cliente")
-    last_name = models.CharField(max_length=30, verbose_name="Apellido del Cliente")
-    phone = models.CharField(max_length=30, verbose_name="Teléfono del Cliente")
-    email = models.EmailField(max_length=50, verbose_name="Email del Cliente")
-    password = models.CharField(max_length=50, verbose_name="Contraseña del Cliente")
-    
-    def __str__(self):
-        return f'{self.first_name} {self.last_name}'
-
-    class Meta:
-        verbose_name = 'cliente'
-        verbose_name_plural = 'clientes'
 
 # Modelo para los productos
 class Product(models.Model):

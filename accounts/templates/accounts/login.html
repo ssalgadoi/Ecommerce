@@ -20,21 +20,18 @@
                 <form method="POST" action="{% url 'login' %}">
                     {% csrf_token %}
                     <div class="mb-3">
-                        <input type="text" class="form-control" placeholder="Ingresa Tu Nombre" name="username" required>
+                        <label for="username">Nombre de usuario</label>
+                        <input type="text" class="form-control" id="username" placeholder="Ingresa Tu Nombre" name="username" required>
                     </div>
                     <div class="mb-3">
-                        <input type="password" class="form-control" placeholder="Ingresa Tu Contraseña" name="password" required>
+                        <label for="password">Contraseña</label>
+                        <input type="password" class="form-control" id="password" placeholder="Ingresa Tu Contraseña" name="password" required>
                     </div>
-                    <button type="submit" class="btn btn-secondary">Entrar</button>
-                </form>
-                <br>
-                <!-- Mensaje para los usuarios sin cuenta -->
-                <div class="text-center">
-                    <p>¿No tienes una cuenta?</p>
-                    <div class="button-group">
+                    <div class="d-flex justify-content-between">
+                        <button type="submit" class="btn btn-secondary">Entrar</button>
                         <a href="{% url 'register' %}" class="btn btn-secondary">Regístrate aquí</a>
                     </div>
-                </div>
+                </form>
                 <br>
             </div>
         </div>

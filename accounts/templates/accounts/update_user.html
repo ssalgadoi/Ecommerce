@@ -1,0 +1,31 @@
+{% extends 'base/base.html' %}
+
+{% block title %}Actualizar Usuario{% endblock %}
+
+{% block content %}
+    {% if messages %}
+        <div class="alert-container">
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+    
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-8">
+                <br>
+                <form method="POST" action="{% url 'update_user' %}">
+                    {% csrf_token %}
+                    {{ user_form.as_p }}
+                    <button type="submit" class="btn btn-secondary">Actualizar perfil</button>
+                    <a href="{% url 'update_password' %}" class="btn btn-success">Actualizar contraseña</a>
+                </form>
+                <br>
+                <br>
+            </div>
+        </div>
+    </div>
+{% endblock %}
