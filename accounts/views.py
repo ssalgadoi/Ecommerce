@@ -4,7 +4,10 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
-from .models import Profile
+from accounts.models import Profile
+from cart.cart import Cart
+import json
+
 
 
 def login_user(request):
@@ -13,13 +16,32 @@ def login_user(request):
         username = request.POST.get('username')
         password = request.POST.get('password')
         user = authenticate(request, username=username, password=password)
+        
         if user is not None:
             login(request, user)
+            try:
+                current_user = Profile.objects.get(user=user)
+                # Obtener su carrito guardado de la base de datos
+                saved_cart = current_user.old_cart
+                
+                if saved_cart:
+                    # Convertir la cadena de base de datos a un diccionario de Python
+                    converted_cart = json.loads(saved_cart)
+                    # Conseguir el carrito
+                    cart = Cart(request)
+                    # Agregar los artículos del carrito cargado a nuestras sesiones
+                    for key, value in converted_cart.items():
+                        cart.db_add(product=key, quantity=value)
+            except Profile.DoesNotExist:
+                # Crear el perfil si no existe
+                Profile.objects.create(user=user)
+
             messages.success(request, "Te has conectado con éxito.")
             return redirect('home')
         else:
             messages.error(request, "Nombre de usuario o contraseña incorrectos. Inténtalo de nuevo.")
             return render(request, 'accounts/login.html')  # Renderiza la plantilla con mensaje de error
+
     return render(request, 'accounts/login.html')
 
 

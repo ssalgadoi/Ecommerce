@@ -1,8 +1,12 @@
 from store.models import Product
+from accounts.models import Profile
+import json
 
 class Cart():
     def __init__(self, request):
         self.session = request.session
+        # Obtener solicitud
+        self.request = request
         cart = self.session.get('session_key')
         if 'session_key' not in request.session:
             cart = self.session['session_key'] = {}
@@ -16,6 +20,13 @@ class Cart():
         else:
             self.cart[product_id] = int(product_qty)
         self.session.modified = True
+        # Tratar con el usuario que ha iniciado sesión
+        if self.request.user.is_authenticated:
+            current_user = Profile.objects.filter(user__id=self.request.user.id)
+            
+            carty = str(self.cart)
+            carty = carty.replace("\'" , "\"")
+            current_user.update(old_cart=str(carty))
 
     def cart_total(self):
         product_ids = self.cart.keys()
@@ -51,10 +62,47 @@ class Cart():
         product_qty = int(quantity)
         self.cart[product_id] = product_qty
         self.session.modified = True
+        
+        if self.request.user.is_authenticated:
+            try:
+                current_user = Profile.objects.get(user=self.request.user)
+                carty = json.dumps(self.cart)  # Convierte el carrito a JSON
+                current_user.old_cart = carty
+                current_user.save()
+            except Profile.DoesNotExist:
+                # Manejar el caso en que el perfil no existe
+                pass
+        
         return self.cart
-    
+
     def delete(self, product_id):
         product_id = str(product_id)
         if product_id in self.cart:
             del self.cart[product_id]
             self.session.modified = True
+            
+            if self.request.user.is_authenticated:
+                try:
+                    current_user = Profile.objects.get(user=self.request.user)
+                    carty = json.dumps(self.cart)  # Convierte el carrito a JSON
+                    current_user.old_cart = carty
+                    current_user.save()
+                except Profile.DoesNotExist:
+                    # Manejar el caso en que el perfil no existe
+                    pass
+
+    def db_add(self, product, quantity):
+        product_id = str(product)
+        product_qty = int(quantity)
+        self.cart[product_id] = self.cart.get(product_id, 0) + product_qty
+        self.session.modified = True
+        
+        if self.request.user.is_authenticated:
+            try:
+                current_user = Profile.objects.get(user=self.request.user)
+                carty = json.dumps(self.cart)  # Convierte el carrito a JSON
+                current_user.old_cart = carty
+                current_user.save()
+            except Profile.DoesNotExist:
+                # Manejar el caso en que el perfil no existe
+                pass
