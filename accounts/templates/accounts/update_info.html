@@ -16,16 +16,22 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-8">
-                <br>
-                <form method="POST" action="{% url 'update_user' %}">
+                <br><br>
+                <strong>Información de usuario</strong>
+                <br><br>
+                <form method="POST" action="{% url 'update_info' %}">
                     {% csrf_token %}
                     {{ form.as_p }}
+                    <br><br>
+                    <strong>Información de dirección de envío</strong>
+                    <br><br>
+                    {{ shipping_form.as_p }}
+                    <br><br>
                     <button type="submit" class="btn btn-secondary">Actualizar perfil</button>
-
                 </form>
-                <br>
-                <br>
+                <br><br>
             </div>
         </div>
     </div>
+    
 {% endblock %}

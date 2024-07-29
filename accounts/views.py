@@ -7,6 +7,8 @@ from django.db.models.signals import post_save
 from accounts.models import Profile
 from cart.cart import Cart
 import json
+from payment.forms import ShippingForm
+from payment.models import ShippingAddress
 
 
 
@@ -115,13 +117,27 @@ def update_password(request):
 
 def update_info(request):
     if request.user.is_authenticated:
-        current_user = User.objects.get(id=request.user.id)
-        form = UserInfoForm(request.POST or None, instance=current_user)
-        if  form.is_valid():
-            form.save()
-            messages.success(request, "Tu información ha sido actualizada.")
-            return redirect('home')
-        return render(request, "accounts/update_info.html", {'form': form})
+        # Obtén el perfil del usuario y la dirección de envío asociada
+        current_user = Profile.objects.get(user=request.user)
+        shipping_user = ShippingAddress.objects.get(user=request.user)
+
+        # Procesa el formulario de usuario y el formulario de dirección de envío
+        if request.method == 'POST':
+            form = UserInfoForm(request.POST, instance=current_user)
+            shipping_form = ShippingForm(request.POST, instance=shipping_user)
+
+            # Verifica si ambos formularios son válidos
+            if form.is_valid() and shipping_form.is_valid():
+                form.save()
+                shipping_form.save()
+                messages.success(request, "Tu información ha sido actualizada.")
+                return redirect('home')
+        else:
+            form = UserInfoForm(instance=current_user)
+            shipping_form = ShippingForm(instance=shipping_user)
+
+        # Renderiza la plantilla con los formularios
+        return render(request, "accounts/update_info.html", {'form': form, 'shipping_form': shipping_form})
     else:
-        messages.success(request, "Debes estar auntenticado para cambiar contraseña!!")  
-        return redirect('home')  
+        messages.error(request, "Debes estar autenticado para cambiar la información.")
+        return redirect('home')
