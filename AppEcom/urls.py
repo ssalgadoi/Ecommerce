@@ -14,7 +14,10 @@ urlpatterns = [
     path('', include('cart.urls')),
     # Path Accounts
     path('', include('accounts.urls')),
+    # Path Payment
+    path('', include('payment.urls')),
     
+
 ]
 
 
