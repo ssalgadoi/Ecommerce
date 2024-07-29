@@ -1,0 +1,47 @@
+{% extends 'base/base.html' %}
+
+{% block title %}Productos Buscados{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <br><br>
+            {% if searched %}
+                {% for product in searched %}
+                    <div class="card mb-3">
+                        <div class="row g-0">
+                            <div class="col-md-4">
+                                <img src="{{ product.image.url }}" class="img-fluid rounded-start" alt="{{ product.name }}">
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ product.name }}</h5>
+                                    <p class="card-text">{{ product.content }}</p>
+                                    <p class="card-text"><small class="text-muted">{{ product.description }}</small></p>
+                                    {% if product.is_sale %}
+                                        <div class="d-flex justify-content-center small text-black bg-warning mb-2 p-2">
+                                            <div class="bi-star-fill"></div>
+                                            <span>&nbsp;&nbsp;¡Ofertas!&nbsp;&nbsp;</span>
+                                            <div class="bi-star-fill"></div>
+                                        </div>
+                                        <!-- Product price -->
+                                        <div>
+                                            <del class="text-dark">${{ product.price }}</del>
+                                            &nbsp;<span class="text-danger">${{ product.sale_price }}</span>
+                                        </div>
+                                    {% else %}
+                                        <!-- Product price -->
+                                        <div class="text-dark">${{ product.price }}</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% endif %}
+            <br><br>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -12,7 +12,7 @@ class Category(models.Model):
     class Meta:
         verbose_name = 'categoría'
         verbose_name_plural = 'categorías'
-     
+        
 
 class Subcategory(models.Model):
     name = models.CharField(max_length=30, verbose_name="Nombre de la Subcategoría")
@@ -24,7 +24,7 @@ class Subcategory(models.Model):
     class Meta:
         verbose_name = 'subcategoría'
         verbose_name_plural = 'subcategorías'
-  
+
 # Modelo para los países
 class Country(models.Model):
     name = models.CharField(max_length=50, unique=True, verbose_name="Nombre del País")

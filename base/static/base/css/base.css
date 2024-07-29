@@ -1,42 +1,55 @@
 /* Barra de Login */
-
 .top-banner {
   background-color: #000; /* Color de fondo negro */
   color: #fff; /* Color de texto blanco */
-  padding: 20px 0; /* Espaciado arriba y abajo */
+  padding: 20px 30px; /* Espaciado arriba y abajo, y a los lados */
   font-size: 16px; /* Tamaño de fuente */
   display: flex; /* Flexbox para alineación */
-  justify-content: center; /* Centrar el texto principal */
-  align-items: center; /* Alinear elementos verticalmente */
+  align-items: center; /* Centra los elementos verticalmente */
   position: relative; /* Para posicionar el texto en el centro */
   min-height: 50px; /* Altura mínima para la barra */
 }
 
-.top-banner .banner-text {
-  position: absolute; /* Posicionar absolutamente dentro del contenedor */
-  left: 50%; /* Mover al centro horizontalmente */
-  transform: translateX(-50%); /* Ajustar para centrar exactamente */
-  text-align: center; /* Centrar texto */
+.top-banner .top-banner-content {
+  display: flex; /* Flexbox para alinear los elementos */
+  width: 100%; /* Ancho completo del contenedor */
+  justify-content: space-between; /* Distribuye el espacio entre los elementos */
+  align-items: center; /* Alinea verticalmente los elementos */
+  position: relative;
 }
 
 .top-banner .auth-links {
-  position: absolute; /* Posicionar absolutamente dentro del contenedor */
-  right: 10px; /* Alinear a la derecha con un pequeño margen */
   display: flex; /* Flexbox para los enlaces */
-  gap: 15px; /* Espaciado entre enlaces */
+  align-items: center; /* Alinea verticalmente los enlaces */
+  margin-right: 20px; /* Añade margen a la derecha */
+}
+
+.top-banner .auth-links i {
+  font-size: 24px; /* Tamaño del icono */
+  margin-right: 5px; /* Espaciado entre el icono y el texto */
+}
+
+.top-banner .banner-text {
+  text-align: center; /* Centra el texto */
+  position: absolute; /* Posicionamiento absoluto */
+  left: 50%; /* Posiciona en el centro horizontalmente */
+  transform: translateX(-50%); /* Ajusta el posicionamiento al centro */
+}
+
+.top-banner .extra-content {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end; /* Alinea el contenido extra a la derecha */
+  margin-left: 20px; /* Añade margen a la izquierda */
 }
 
 .top-banner a {
-  color: #fff; /* Color blanco para los enlaces */
+  color: #848484; /* Color gris para los enlaces */
   text-decoration: none; /* Sin subrayado en los enlaces */
 }
 
 .top-banner a:hover {
   text-decoration: underline; /* Subrayado al pasar el ratón */
-}
-
-.top-banner .auth-links i {
-  margin-right: 5px; /* Espaciado entre el icono y el texto */
 }
 
 .top-banner .login-button,
@@ -45,6 +58,14 @@
   display: flex;
   align-items: center;
 }
+
+/* Estilos del formulario de búsqueda */
+.form-inline {
+  display: flex;
+  align-items: center;
+  margin-left: 10px; /* Añade margen a la izquierda */
+}
+
 
 /* Dropdown Menu Styles */
 .dropdown-menu {
@@ -72,8 +93,6 @@
   background-color: #f8f9fa; /* Fondo gris claro al hacer hover */
   color: #000; /* Color del texto negro al hacer hover */
 }
-
-/* Otros Estilos Existentes */
 
 /* Subcategorias */
 
