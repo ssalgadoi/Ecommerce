@@ -117,9 +117,14 @@ def update_password(request):
 
 def update_info(request):
     if request.user.is_authenticated:
-        # Obtén el perfil del usuario y la dirección de envío asociada
+        # Obtén el perfil del usuario
         current_user = Profile.objects.get(user=request.user)
-        shipping_user = ShippingAddress.objects.get(user=request.user)
+        
+        # Intenta obtener la dirección de envío asociada, o crea una nueva si no existe
+        try:
+            shipping_user = ShippingAddress.objects.get(user=request.user)
+        except ShippingAddress.DoesNotExist:
+            shipping_user = ShippingAddress(user=request.user)
 
         # Procesa el formulario de usuario y el formulario de dirección de envío
         if request.method == 'POST':

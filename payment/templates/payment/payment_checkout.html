@@ -1,0 +1,60 @@
+{% extends 'base/base.html' %}
+
+{% block title %}Carrito{% endblock %}
+
+{% block content %}
+<section class="container">
+    <br>
+    <br>
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <div class="card">
+                
+                <div class="card-header">
+                    Resumen del pedido
+                </div>
+                <div class="card-body">
+                    {% for product in cart_products %}
+                        <h5 class="card-title">{{ product.name }}</h5>
+                        <p class="card-text">Valor: 
+                            {% if product.is_sale %}
+                                $ {{ product.sale_price }}
+                            {% else %}
+                                $ {{ product.price }}
+                            {% endif %}
+                        </p>
+                        <p class="card-text">
+                            Cantidad : {% for key, value in quantities.items %}
+                            {% if key == product.id|slugify %}
+                                {{ value }}
+                            {% endif %}
+                        {% endfor %}
+                        </p>
+                    {% endfor %}
+                    <p class="card-text">
+                        Total a Pagar : $ {{ totals }}
+                    </p>
+                    <a href="{% url 'cart_summary' %}" class="btn btn-sm btn-outline-secondary">Actualizar carrito</a>
+                </div>
+            </div>
+            <br>
+            <br>
+            <div class="card">
+                <div class="card-header">
+                    Datos de envío
+                </div>
+                <div class="card-body">
+                        {{ shipping_form.as_p }}
+                </div>
+            </div>
+            <br>
+            <a href="#" class="btn btn-secondary">Continuar con el Pago</a>
+            <br>
+            <br> 
+    </div>
+    <br>
+    <br>
+</section>
+
+
+{% endblock %}
