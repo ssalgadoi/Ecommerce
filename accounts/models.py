@@ -40,7 +40,8 @@ class Profile(models.Model):
 # Crear un perfil de usuario de forma predeterminada cuando el usuario se registra
 def create_profile(sender, instance, created, **kwargs):
     if created:
-        Profile.objects.create(user=instance)
+        user_profile = Profile(user=instance)
+        user_profile.save()
 
 # Automatizar la creación del perfil
 post_save.connect(create_profile, sender=User)

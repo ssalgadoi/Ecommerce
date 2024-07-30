@@ -1,6 +1,6 @@
 {% extends 'base/base.html' %}
 
-{% block title %}Carrito{% endblock %}
+{% block title %}Información de facturación{% endblock %}
 
 {% block content %}
 <section class="container">
@@ -41,15 +41,40 @@
             <br>
             <div class="card">
                 <div class="card-header">
-                    Datos de envío
+                    <h3>Datos de envío</h3>
                 </div>
                 <div class="card-body">
-                    <form method="POST" action="{% url 'billing_info'%}">
-                        {% csrf_token %}
-                        {{ shipping_form.as_p }}
+
+                    {% if shipping_form.is_bound and shipping_form.is_valid %}
+                    <p>Nombre: {{ shipping_form.cleaned_data.shipping_full_name }}</p>
+                    <p>Correo: {{ shipping_form.cleaned_data.shipping_email }}</p>
+                    <p>Dirección 1: {{ shipping_form.cleaned_data.shipping_address1 }}</p>
+                    <p>Dirección 2: {{ shipping_form.cleaned_data.shipping_address2 }}</p>
+                    <p>Ciudad: {{ shipping_form.cleaned_data.shipping_city }}</p>
+                    <p>Estado: {{ shipping_form.cleaned_data.shipping_state }}</p>
+                    <p>Código Postal: {{ shipping_form.cleaned_data.shipping_zipcode }}</p>
+                    <p>País: {{ shipping_form.cleaned_data.shipping_country }}</p>
+                {% endif %}
+
                         <br>
-                        <button type="submit" href="{% url 'billing_info' %}" class="btn btn-secondary">Continuar con el Pago</button>
+                        <a href="{% url 'payment_checkout'%}" class="btn btn-secondary">Actualizar envío</a>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    Información de facturación
+                </div>
+                <div class="card-body">
+                    <form method="POST" action="{% url 'process_order' %}">
+                        {% csrf_token %}
+                        {{ billing_form.as_p }}
+                        <br>
+                        <br>
+                        <button  type="submit" href="{% url 'payment_checkout'%}" class="btn btn-secondary">Pagar ahora</button>
+                        <br>
+                        <br>
                     </form>
+                  
                 </div>
                 
             </div>

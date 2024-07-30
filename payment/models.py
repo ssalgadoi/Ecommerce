@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from store.models import Product
+from django.db.models.signals import post_save
 
 # Modelo para la dirección de envío del usuario
 class ShippingAddress(models.Model):
@@ -23,12 +24,23 @@ class ShippingAddress(models.Model):
     def __str__(self):
         return f'Dirección de Envíos - {str(self.id)}'
 
+
+# Crear un perfil de usuario de forma predeterminada cuando el usuario se registra
+def create_shipping(sender, instance, created, **kwargs):
+    if created:
+        user_shipping = ShippingAddress(user=instance)
+        user_shipping.save()
+
+# Automatizar la creación del perfil
+post_save.connect(create_shipping, sender=User)
+
+
 # Modelo para los pedidos
 class Order(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     full_name = models.CharField(max_length=100, verbose_name="Nombre")
     email = models.EmailField(max_length=254, verbose_name="Correo")
-    shipping_address = models.CharField(max_length=100, default='', blank=True, verbose_name="Dirección")
+    shipping_address = models.TextField(max_length=100, default='', blank=True, verbose_name="Dirección")
     amount_paid = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="Cantidad pagada")
     date_ordered = models.DateTimeField(auto_now_add=True, verbose_name="Fecha del pedido")
 

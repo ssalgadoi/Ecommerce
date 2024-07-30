@@ -294,3 +294,44 @@ class Cart():
             carty = str(self.cart)
             carty = carty.replace("\'" , "\"")
             current_user.update(old_cart=str(carty))
+
+
+
+<form method="POST" action="{% url 'billing_info'%}">
+                        {% csrf_token %}
+                        {{ shipping_info }}
+                        <br>
+                        <a href="#" class="btn btn-secondary">Pagar ahora</a>
+                    </form>
+
+
+        
+
+          cart = Cart(request)
+    cart_products = cart.get_prods()
+    quantities = cart.get_quants()
+    totals = cart.cart_total()
+
+    if request.method == 'POST':
+        shipping_form = ShippingForm(request.POST)
+
+        if shipping_form.is_valid():
+            # Procesa el formulario aquí si es necesario, como guardar la información
+            # shipping_form.save()
+            return render(request, "payment/billing_info.html", {
+                'cart_products': cart_products,
+                'quantities': quantities,
+                'totals': totals,
+                'shipping_form': shipping_form
+            })
+        else:
+            # Si el formulario no es válido, vuelve a renderizar la plantilla mostrando los errores
+            return render(request, "payment/billing_info.html", {
+                'cart_products': cart_products,
+                'quantities': quantities,
+                'totals': totals,
+                'shipping_form': shipping_form
+            })
+    else:
+        messages.error(request, "Acceso denegado")
+        return redirect('home')

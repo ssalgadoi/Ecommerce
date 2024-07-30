@@ -67,7 +67,7 @@ def register_user(request):
             if user is not None:
                 login(request, user)
                 messages.success(request, "¡¡Registro exitoso!! ¡Bienvenido!")
-                return redirect('home')
+                return redirect('update_info')
         else:
             messages.error(request, "Hubo un problema al registrarte, por favor inténtalo de nuevo.")
     return render(request, 'accounts/register.html', {'form': form})
