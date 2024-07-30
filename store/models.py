@@ -75,20 +75,3 @@ class Product(models.Model):
         verbose_name = 'producto'
         verbose_name_plural = 'productos'
 
-# Modelo para los pedidos
-class Order(models.Model):
-    order_number = models.CharField(max_length=20, unique=True, verbose_name="Número de Orden")
-    product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name="Producto")
-    customer = models.ForeignKey(Customer, on_delete=models.CASCADE, verbose_name="Cliente")
-    quantity = models.IntegerField(default=1, verbose_name="Cantidad")
-    address = models.CharField(max_length=100, default='', blank=True, verbose_name="Dirección")
-    phone = models.CharField(max_length=20, default='', blank=True, verbose_name="Teléfono")
-    date = models.DateField(default=datetime.today, verbose_name="Fecha")
-    status = models.BooleanField(default=False, verbose_name="Estado")
-    
-    def __str__(self):
-        return self.order_number
-    
-    class Meta:
-        verbose_name = 'orden'
-        verbose_name_plural = 'ordenes'

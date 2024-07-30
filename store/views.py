@@ -34,12 +34,7 @@ def subcategory(request, foo):
     except Subcategory.DoesNotExist:
         messages.error(request, "¡Esta subcategoría no existe!")
         
-        
 
-    
-        
-        
-        
 def search(request):
     """Vista para buscar un producto."""
     if request.method == "POST":
