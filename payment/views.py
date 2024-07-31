@@ -1,46 +1,124 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from cart.cart import Cart
 from payment.forms import ShippingForm, PaymentForm
 from payment.models import ShippingAddress, Order, OrderItem
 from django.contrib.auth.models import User
 from store.models import Product
+import datetime
 
 # Create your views here.
 
 def not_shipped_dash(request):
     if request.user.is_authenticated and request.user.is_superuser:
         orders = Order.objects.filter(shipped=False)
-        return render(request, "payment/not_shipped_dash.html", {'orders':orders})
+        
+        if request.method == 'POST':
+            status = request.POST.get('shipping_status')
+            num = request.POST.get('num')
+            
+            if num is not None:
+                order = get_object_or_404(Order, id=num)
+                now = datetime.datetime.now()
+                
+                if status == "true":
+                    order.shipped = True
+                    order.date_shipped = now
+                else:
+                    order.shipped = False
+                    order.date_shipped = None  # Opcional: restablece la fecha de envío
+                
+                order.save()
+                messages.success(request, "Estado de envío actualizado")
+                return redirect('not_shipped_dash')
+            else:
+                messages.error(request, "Número de orden no válido")
+                return redirect('not_shipped_dash')
+        
+        return render(request, "payment/not_shipped_dash.html", {'orders': orders})
     else:
-        messages.success(request, "Acceso Denegado")
+        messages.error(request, "Acceso Denegado")
         return redirect('home')
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 def shipped_dash(request):
     if request.user.is_authenticated and request.user.is_superuser:
         orders = Order.objects.filter(shipped=True)
-        return render(request, "payment/shipped_dash.html", {'orders':orders})
+        
+        if request.method == 'POST':
+            status = request.POST.get('shipping_status')
+            num = request.POST.get('num')
+            
+            if num is not None:
+                order = get_object_or_404(Order, id=num)
+                now = datetime.datetime.now()
+                
+                if status == "true":
+                    order.shipped = True
+                    order.date_shipped = now
+                else:
+                    order.shipped = False
+                    order.date_shipped = None  # Opcional: restablece la fecha de envío
+                
+                order.save()
+                messages.success(request, "Estado de envío actualizado")
+                return redirect('shipped_dash')
+            else:
+                messages.error(request, "Número de orden no válido")
+                return redirect('shipped_dash')
+        
+        return render(request, "payment/shipped_dash.html", {'orders': orders})
     else:
-        messages.success(request, "Acceso Denegado")
+        messages.error(request, "Acceso Denegado")
         return redirect('home')
+
+
+
+
+
+
 
 def orders(request, pk):
     if request.user.is_authenticated and request.user.is_superuser:
         # Obtener el pedido
-        order = Order.objects.get(id=pk)
+        order = get_object_or_404(Order, id=pk)
         # Obtener los artículos del pedido
-        items = OrderItem.objects.filter(order=pk)
+        items = OrderItem.objects.filter(order=order)
+        # Obtener la fecha y hora actual
+        now = datetime.datetime.now()
         
+        if request.method == 'POST':
+            status = request.POST.get('shipping_status')
+            if status is not None:
+                # Comprueba si es verdadero o falso
+                if status == "true":
+                    order.shipped = True
+                    order.date_shipped = now  # Actualiza la fecha de envío
+                else:
+                    order.shipped = False
+                    order.date_shipped = None  # Opcional: restablece la fecha de envío
+                order.save()
+                messages.success(request, "Estado de envío actualizado")
+            else:
+                messages.error(request, "Estado de envío no válido")
+            return redirect('home')
         
-        
-        return render(request, "payment/orders.html", {'order':order, 'items': items})
+        return render(request, "payment/orders.html", {'order': order, 'items': items, 'now': now})
     else:
-        messages.success(request, "Acceso Denegado")
+        messages.error(request, "Acceso Denegado")
         return redirect('home')
-
-
-
-
 
 
 

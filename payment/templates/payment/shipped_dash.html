@@ -18,6 +18,7 @@
                         <th scope="col">Precio</th>
                         <th scope="col">Correo</th>
                         <th scope="col">Fecha</th>
+                        <th scope="col">Envío</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -26,7 +27,15 @@
                         <td><a href="{% url 'orders' item.id %}">{{ item.id }}</a></td>
                         <td>{{ item.amount_paid }}</td>
                         <td>{{ item.email }}</td>
-                        <td>{{ item.date_ordered }}</td>
+                        <td>{{ item.date_shipped }}</td>
+                        <td>
+                          <form method="POST">
+                            {% csrf_token %}
+                            <input type="hidden" name="shipping_status" value="false">
+                            <input type="hidden" name="num" value={{item.id}}>
+                            <button type="submit" class="btn btn-danger btn-sm">Marcar como no enviado</button>
+                          </form>
+                        </td>
                       </tr>
                       {% endfor %}
                     </tbody>
