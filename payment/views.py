@@ -5,6 +5,7 @@ from payment.forms import ShippingForm, PaymentForm
 from payment.models import ShippingAddress, Order, OrderItem
 from django.contrib.auth.models import User
 from store.models import Product
+from accounts.models import Profile
 import datetime
 
 # Create your views here.
@@ -288,7 +289,10 @@ def process_order(request):
                 if key == "session_key":
                     # Eliminar la clave
                     del request.session[key]
-                        
+            
+            # Eliminar carrito de la base de datos
+            current_user = Profile.objects.filter(user__id=request.user.id)
+            current_user.update(old_cart="")
             
             messages.success(request, "Pedido realizado")
             return redirect('home')

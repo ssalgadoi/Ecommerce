@@ -26,8 +26,8 @@
                                 <!-- Product price -->
                                 {% if product.sale_price %}
                                     <div>
-                                        <del>${{ product.price }}</del>
-                                        <span class="text-danger">${{ product.sale_price }}</span>
+                                        <del>${{ product.price|floatformat:0 }}</del>
+                                        <span class="text-danger">${{ product.sale_price|floatformat:0 }}</span>
                                     </div>
                                     <!-- Sale indicator -->
                                     <div class="d-flex justify-content-center small text-bg-warning mb-2 mt-2">
@@ -36,7 +36,7 @@
                                         <div class="bi-star-fill"></div>
                                     </div>
                                 {% else %}
-                                    <span>${{ product.price }}</span>
+                                    <span>${{ product.price|floatformat:0 }}</span>
                                 {% endif %}
                             </div>
                         </div>

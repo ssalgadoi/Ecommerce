@@ -26,12 +26,12 @@
                             </div>
                             <!-- Product price -->
                             <div>
-                                <del class="text-dark">${{ product.price }}</del>
-                                &nbsp;<span class="text-danger">${{ product.sale_price }}</span>
+                                <del class="text-dark">${{ product.price|floatformat:0 }}</del>
+                                &nbsp;<span class="text-danger">${{ product.sale_price|floatformat:0 }}</span>
                             </div>
                         {% else %}
                             <!-- Product price -->
-                            <div class="text-dark">${{ product.price }}</div>
+                            <div class="text-dark">${{ product.price|floatformat:0 }}</div>
                         {% endif %}
                         <br>
                         <!-- Dropdown menu -->
