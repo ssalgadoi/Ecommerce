@@ -4,6 +4,7 @@ from cart.cart import Cart
 from payment.forms import ShippingForm, PaymentForm
 from payment.models import ShippingAddress, Order, OrderItem
 from django.contrib.auth.models import User
+from store.models import Product
 
 # Create your views here.
 
@@ -105,7 +106,7 @@ def payment_success(request):
 
 
 def process_order(request):
-    if request.POST:
+    if request.method == 'POST':
         # Consigue el carrito
         cart = Cart(request)
         cart_products = cart.get_prods()
@@ -115,36 +116,104 @@ def process_order(request):
         payment_form = PaymentForm(request.POST or None)
         # Obtener datos de sesión de envío
         my_shipping = request.session.get('my_shipping')
-       
         
         # Recopilar información del pedido
         
         # Crear dirección de envío a partir de la información de la sesión
         full_name = my_shipping['shipping_full_name']
         email = my_shipping['shipping_email']
-        shipping_address = f"{my_shipping['shipping_address1']}\n{my_shipping['shipping_address2']}\n{my_shipping['shipping_city']}\n{my_shipping['shipping_state']}\n{my_shipping['shipping_state']}\n{my_shipping['shipping_zipcode']}\n{my_shipping['shipping_country']}\n"
+        shipping_address = (
+            f"{my_shipping['shipping_address1']}\n"
+            f"{my_shipping['shipping_address2']}\n"
+            f"{my_shipping['shipping_city']}\n"
+            f"{my_shipping['shipping_state']}\n"
+            f"{my_shipping['shipping_zipcode']}\n"
+            f"{my_shipping['shipping_country']}\n"
+        )
         amount_paid = totals
         
         # Crear un pedido
         if request.user.is_authenticated:
-            # conectado
+            # Conectado
             user = request.user
             # Crear orden
-            create_order = Order(user=user, full_name=full_name, email=email, shipping_address=shipping_address, amount_paid=amount_paid)
+            create_order = Order(
+                user=user, full_name=full_name, email=email,
+                shipping_address=shipping_address, amount_paid=amount_paid
+            )
             create_order.save()
+            # Agregar artículos de pedido
+            # Obtener el ID del pedido
+            order_id = create_order.pk
+            
+            # Obtener información del producto
+            for product in cart_products:
+                # Obtener ID del producto
+                product_id = product.id
+                # Obtener precio del producto
+                if product.is_sale:
+                    price = product.sale_price
+                else:
+                    price = product.price
+                
+                # Obtener cantidad
+                for key, value in quantities.items():
+                    if int(key) == product.id:
+                        # Crear artículo de pedido
+                        create_order_item = OrderItem(
+                            order=create_order, product=product,
+                            quantity=value, price=price
+                        )
+                        create_order_item.save()
+                        
+            # Eliminar nuestro carrito
+            for key in list(request.session.keys()):
+                if key == "session_key":
+                    # Eliminar la clave
+                    del request.session[key]
+                        
             
             messages.success(request, "Pedido realizado")
             return redirect('home')
         else:
             # Sin iniciar sesión
-            create_order = Order(full_name=full_name, email=email, shipping_address=shipping_address, amount_paid=amount_paid)
+            create_order = Order(
+                full_name=full_name, email=email,
+                shipping_address=shipping_address, amount_paid=amount_paid
+            )
             create_order.save()
+            
+            # Obtener el ID del pedido
+            order_id = create_order.pk
+            
+            # Obtener información del producto
+            for product in cart_products:
+                # Obtener ID del producto
+                product_id = product.id
+                # Obtener precio del producto
+                if product.is_sale:
+                    price = product.sale_price
+                else:
+                    price = product.price
+                
+                # Obtener cantidad
+                for key, value in quantities.items():
+                    if int(key) == product.id:
+                        # Crear artículo de pedido
+                        create_order_item = OrderItem(
+                            order=create_order, product=product,
+                            quantity=value, price=price
+                        )
+                        create_order_item.save()
+            # Eliminar nuestro carrito
+            for key in list(request.session.keys()):
+                if key == "session_key":
+                    # Eliminar la clave
+                    del request.session[key]    
             
             messages.success(request, "Pedido realizado")
             return redirect('home')
-
     else:
-        messages.success(request, "Acceso denegado")
-        return render('home')
-
+        messages.error(request, "Acceso denegado")
+        return redirect('home')
 

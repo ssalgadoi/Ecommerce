@@ -43,7 +43,9 @@ class Order(models.Model):
     shipping_address = models.TextField(max_length=100, default='', blank=True, verbose_name="Dirección")
     amount_paid = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="Cantidad pagada")
     date_ordered = models.DateTimeField(auto_now_add=True, verbose_name="Fecha del pedido")
-
+    shipped = models.BooleanField(default=False)
+    
+    
     def __str__(self):
         return f'Orden - {str(self.id)}'
     
@@ -55,6 +57,7 @@ class Order(models.Model):
 class OrderItem(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE, null=True)
     product = models.ForeignKey(Product, on_delete=models.CASCADE, null=True)
+    
     quantity = models.PositiveIntegerField(default=1)
     price = models.DecimalField(max_digits=10, decimal_places=2)
 
