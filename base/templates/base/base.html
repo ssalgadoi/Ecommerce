@@ -38,6 +38,7 @@
     </div>
 
  <!-- Franja superior -->
+ <!-- Franja superior -->
  <div class="top-banner">
     <div class="top-banner-content">
         <div class="auth-links">
@@ -49,9 +50,20 @@
                     <div class="dropdown-menu dropdown-menu-right menu-header" aria-labelledby="userDropdown">
                         <a class="dropdown-item" href="{% url 'update_user' %}">Actualizar Usuario</a>
                         <a class="dropdown-item" href="{% url 'update_info' %}">Actualizar Información</a>
+                        
+                        <!-- Enlaces para administración de pedidos -->
+                        
+                            {% if user.is_superuser %}
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="{% url 'not_shipped_dash' %}">Pedidos No Enviados</a>
+                            <a class="dropdown-item" href="{% url 'shipped_dash' %}">Pedidos Enviados</a>
+                        {% endif %}
+                        
+                        
+                        
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i> Salir</a>
-                    </div>
+                        </div>
                 </div>
             {% else %}
                 <a href="{% url 'login' %}" class="login-button">
@@ -59,6 +71,7 @@
                 </a>
             {% endif %}
         </div>
+        
         
         <form class="form-inline" method="POST" action="{% url 'search' %}">
             {% csrf_token %}
@@ -71,6 +84,7 @@
         Compra con hasta 6 cuotas sin interés
     </div>
 </div>
+
 
     <nav class="custom-navbar navbar navbar-expand-lg">
         <!-- Contenedor de elementos de la barra de navegación -->

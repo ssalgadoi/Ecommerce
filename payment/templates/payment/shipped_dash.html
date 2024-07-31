@@ -1,0 +1,40 @@
+{% extends 'base/base.html' %}
+
+{% block title %}Tablero enviado{% endblock %}
+
+{% block content %}
+<section class="container">
+    <br>
+    <br>
+    <div class="row">
+        <center>
+            <div class="col-8">
+           
+                <table class="table table-striped table-hover table-bordered">
+                    <h1>Artículos enviados</h1>
+                    <thead class="table-dark">
+                      <tr>
+                        <th scope="col">Orden</th>
+                        <th scope="col">Precio</th>
+                        <th scope="col">Correo</th>
+                        <th scope="col">Fecha</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in orders %}
+                      <tr>
+                        <td><a href="{% url 'orders' item.id %}">{{ item.id }}</a></td>
+                        <td>{{ item.amount_paid }}</td>
+                        <td>{{ item.email }}</td>
+                        <td>{{ item.date_ordered }}</td>
+                      </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+            </div>
+        </center>
+       
+    </div>  
+</section>
+
+{% endblock %}

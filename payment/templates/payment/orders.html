@@ -1,0 +1,40 @@
+{% extends 'base/base.html' %}
+
+{% block title %}Orden{% endblock %}
+
+{% block content %}
+<section class="container">
+    <br>
+    <br>
+    <div class="row">
+        <center>
+            <div class="card">
+                <div class="card-header">
+                    Orden {{ order.id }} - ${{ order.amount_paid }}
+                </div>
+                <div class="card-body">
+                    Correo: {{ order.email }}<br>
+                    {% if order.date_shipped %}
+                        Fecha de envío: {{ order.date_shipped }}
+                    {% else %}
+                        Fecha de la orden: {{ order.date_ordered }}
+                    {% endif %}
+                    <br>
+                    Nombre Completo: {{ order.full_name }}<br>
+                    Dirección de envío: {{ order.shipping_address }}
+                    <br><br>
+                    {% for item in items %}
+                        Producto: {{ item.product }} - {{ item.quantity }} - ${{ item.price }}<br>
+                    {% endfor %}
+                </div>
+            </div>
+            <br>
+            <a href="{% url 'home' %}" class="btn btn-primary">Ir a inicio</a>
+            <br>
+            <br>
+        </center>
+       
+    </div>  
+</section>
+
+{% endblock %}

@@ -137,11 +137,6 @@ class UserInfoForm(forms.ModelForm):
         required=False,
         widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Dirección 1'})
     )
-    address2 = forms.CharField(
-        max_length=200, 
-        required=False,
-        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Dirección 2'})
-    )
     city = forms.CharField(
         max_length=200, 
         required=False,
@@ -165,7 +160,7 @@ class UserInfoForm(forms.ModelForm):
     
     class Meta:
         model = Profile
-        fields = ['phone', 'address1', 'address2', 'city', 'state', 'zipcode', 'country']
+        fields = ['phone', 'address1', 'city', 'state', 'zipcode', 'country']
 
             
 class UserInfoForm(forms.ModelForm):
@@ -179,11 +174,7 @@ class UserInfoForm(forms.ModelForm):
         required=False,
         widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Dirección 1'})
     )
-    address2 = forms.CharField(
-        max_length=200, 
-        required=False,
-        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Dirección 2'})
-    )
+
     city = forms.CharField(
         max_length=200, 
         required=False,
@@ -207,4 +198,4 @@ class UserInfoForm(forms.ModelForm):
     
     class Meta:
         model = Profile
-        fields = ['phone', 'address1', 'address2', 'city', 'state', 'zipcode', 'country']
+        fields = ['phone', 'address1', 'city', 'state', 'zipcode', 'country']

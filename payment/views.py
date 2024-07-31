@@ -8,6 +8,46 @@ from store.models import Product
 
 # Create your views here.
 
+def not_shipped_dash(request):
+    if request.user.is_authenticated and request.user.is_superuser:
+        orders = Order.objects.filter(shipped=False)
+        return render(request, "payment/not_shipped_dash.html", {'orders':orders})
+    else:
+        messages.success(request, "Acceso Denegado")
+        return redirect('home')
+
+def shipped_dash(request):
+    if request.user.is_authenticated and request.user.is_superuser:
+        orders = Order.objects.filter(shipped=True)
+        return render(request, "payment/shipped_dash.html", {'orders':orders})
+    else:
+        messages.success(request, "Acceso Denegado")
+        return redirect('home')
+
+def orders(request, pk):
+    if request.user.is_authenticated and request.user.is_superuser:
+        # Obtener el pedido
+        order = Order.objects.get(id=pk)
+        # Obtener los artículos del pedido
+        items = OrderItem.objects.filter(order=pk)
+        
+        
+        
+        return render(request, "payment/orders.html", {'order':order, 'items': items})
+    else:
+        messages.success(request, "Acceso Denegado")
+        return redirect('home')
+
+
+
+
+
+
+
+
+
+
+
 def billing_info(request):
     if request.method == "POST":
         # Consigue el carrito
@@ -124,7 +164,6 @@ def process_order(request):
         email = my_shipping['shipping_email']
         shipping_address = (
             f"{my_shipping['shipping_address1']}\n"
-            f"{my_shipping['shipping_address2']}\n"
             f"{my_shipping['shipping_city']}\n"
             f"{my_shipping['shipping_state']}\n"
             f"{my_shipping['shipping_zipcode']}\n"

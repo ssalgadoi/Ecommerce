@@ -48,9 +48,7 @@
                     {% if shipping_form.is_bound and shipping_form.is_valid %}
                     <p>Nombre: {{ shipping_form.cleaned_data.shipping_full_name }}</p>
                     <p>Correo: {{ shipping_form.cleaned_data.shipping_email }}</p>
-                    <p>Dirección 1: {{ shipping_form.cleaned_data.shipping_address1 }}</p>
-                    <p>Dirección 2: {{ shipping_form.cleaned_data.shipping_address2 }}</p>
-                    <p>Ciudad: {{ shipping_form.cleaned_data.shipping_city }}</p>
+                    <p>Dirección 1: {{ shipping_form.cleaned_data.shipping_address1 }}</p>                    <p>Ciudad: {{ shipping_form.cleaned_data.shipping_city }}</p>
                     <p>Estado: {{ shipping_form.cleaned_data.shipping_state }}</p>
                     <p>Código Postal: {{ shipping_form.cleaned_data.shipping_zipcode }}</p>
                     <p>País: {{ shipping_form.cleaned_data.shipping_country }}</p>

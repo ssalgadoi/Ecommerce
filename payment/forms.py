@@ -14,10 +14,6 @@ class ShippingForm(forms.ModelForm):
         widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Dirección 1', 'maxlength': '100'}),
         required=True
     )
-    shipping_address2 = forms.CharField(
-        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Dirección 2', 'maxlength': '100'}),
-        required=False
-    )
     shipping_city = forms.CharField(
         widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Ciudad', 'maxlength': '100'}),
         required=True
@@ -37,7 +33,7 @@ class ShippingForm(forms.ModelForm):
 
     class Meta:
         model = ShippingAddress
-        fields = ['shipping_full_name', 'shipping_email', 'shipping_address1', 'shipping_address2', 'shipping_city', 'shipping_state', 'shipping_zipcode', 'shipping_country']
+        fields = ['shipping_full_name', 'shipping_email', 'shipping_address1', 'shipping_city', 'shipping_state', 'shipping_zipcode', 'shipping_country']
         exclude = ['user']
 
 
@@ -66,10 +62,7 @@ class PaymentForm(forms.Form):
         widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Dirección 1', 'maxlength': '100'}),
         required=True
     )
-    card_address2 = forms.CharField(
-        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Dirección 2', 'maxlength': '100'}),
-        required=False
-    )
+  
     card_city = forms.CharField(
         widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Ciudad', 'maxlength': '100'}),
         required=True
