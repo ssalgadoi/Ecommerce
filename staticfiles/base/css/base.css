@@ -1,0 +1,216 @@
+/* Barra de Login */
+.top-banner {
+  background-color: #000; /* Color de fondo negro */
+  color: #fff; /* Color de texto blanco */
+  padding: 20px 30px; /* Espaciado arriba y abajo, y a los lados */
+  font-size: 16px; /* Tamaño de fuente */
+  display: flex; /* Flexbox para alineación */
+  align-items: center; /* Centra los elementos verticalmente */
+  position: relative; /* Para posicionar el texto en el centro */
+  min-height: 50px; /* Altura mínima para la barra */
+}
+
+.top-banner .top-banner-content {
+  display: flex; /* Flexbox para alinear los elementos */
+  width: 100%; /* Ancho completo del contenedor */
+  justify-content: space-between; /* Distribuye el espacio entre los elementos */
+  align-items: center; /* Alinea verticalmente los elementos */
+  position: relative;
+}
+
+.top-banner .auth-links {
+  display: flex; /* Flexbox para los enlaces */
+  align-items: center; /* Alinea verticalmente los enlaces */
+  margin-right: 20px; /* Añade margen a la derecha */
+}
+
+.top-banner .auth-links i {
+  font-size: 24px; /* Tamaño del icono */
+  margin-right: 5px; /* Espaciado entre el icono y el texto */
+}
+
+.top-banner .banner-text {
+  text-align: center; /* Centra el texto */
+  position: absolute; /* Posicionamiento absoluto */
+  left: 50%; /* Posiciona en el centro horizontalmente */
+  transform: translateX(-50%); /* Ajusta el posicionamiento al centro */
+}
+
+.top-banner .extra-content {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end; /* Alinea el contenido extra a la derecha */
+  margin-left: 20px; /* Añade margen a la izquierda */
+}
+
+.top-banner a {
+  color: #848484; /* Color gris para los enlaces */
+  text-decoration: none; /* Sin subrayado en los enlaces */
+}
+
+.top-banner a:hover {
+  text-decoration: underline; /* Subrayado al pasar el ratón */
+}
+
+.top-banner .login-button,
+.top-banner .logout-button,
+.top-banner .register-button {
+  display: flex;
+  align-items: center;
+}
+
+/* Estilos del formulario de búsqueda */
+.form-inline {
+  display: flex;
+  align-items: center;
+  margin-left: 10px; /* Añade margen a la izquierda */
+}
+
+
+/* Dropdown Menu Styles */
+.dropdown-menu {
+  display: none; /* Oculta el menú por defecto */
+  position: absolute;
+  background-color: #fff; /* Color de fondo blanco */
+  border: 1px solid #ddd; /* Borde gris claro */
+  border-radius: 4px; /* Bordes redondeados */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Sombra */
+  z-index: 1000;
+}
+
+.nav-item:hover .dropdown-menu {
+  display: block; /* Muestra el menú cuando el nav-item se activa */
+}
+
+.dropdown-item {
+  padding: 0.5rem 1rem;
+  color: #333; /* Color del texto negro */
+  background-color: #fff; /* Fondo blanco */
+  text-decoration: none;
+}
+
+.dropdown-item:hover {
+  background-color: #f8f9fa; /* Fondo gris claro al hacer hover */
+  color: #000; /* Color del texto negro al hacer hover */
+}
+
+/* Subcategorias */
+
+.custom-navbar {
+  display: flex;
+  flex-direction: column; /* Organiza los elementos en una columna */
+  padding: 10px; /* Ajusta el padding según sea necesario */
+}
+
+.navbar-content {
+  display: flex;
+  align-items: center; /* Centra el contenido verticalmente */
+  width: 100%; /* Asegura que el contenedor ocupe todo el ancho */
+  position: relative; /* Permite la colocación relativa del contenido */
+}
+
+.logo-form-container {
+  display: flex;
+  align-items: center; /* Centra el logo verticalmente */
+  position: absolute; /* Permite centrar el logo en el contenedor principal */
+  left: 50%;
+  transform: translateX(-50%); /* Centra el logo horizontalmente */
+  margin-top: 40px; /* Ajusta el espacio arriba del logo */
+  margin-bottom: 20px; /* Ajusta el espacio debajo del logo */
+}
+
+.custom-logo {
+  display: flex;
+  align-items: center; /* Centra verticalmente la imagen */
+}
+
+.custom-logo img {
+  max-height: 70px; /* Ajusta la altura máxima de la imagen según sea necesario */
+  width: auto; /* Mantiene la proporción de la imagen */
+}
+
+.form-container {
+  display: flex;
+  align-items: center; /* Alinea verticalmente el contenido del formulario */
+  margin-left: auto; /* Mueve el formulario a la derecha del contenedor */
+}
+
+.navbar-toggler {
+  margin-right: 10px; /* Espacio entre el botón de colapso y el logo */
+}
+
+.nav-links-container {
+  width: 100%; /* Asegura que el contenedor de enlaces ocupe todo el ancho */
+  display: flex; /* Usa flexbox para alinear los enlaces horizontalmente */
+  justify-content: center; /* Centra los enlaces horizontalmente */
+  margin-top: 40px; /* Añade espacio arriba de los enlaces */
+}
+
+.nav-links {
+  display: flex; /* Muestra los elementos de la lista en línea horizontalmente */
+  padding: 0;
+  margin: 0;
+  list-style: none; /* Quita los puntos de la lista */
+}
+
+.nav-links li {
+  margin: 0 5px; /* Espacio entre los enlaces */
+}
+
+.nav-links a {
+  text-decoration: none; /* Quita el subrayado de los enlaces */
+  color: inherit; /* Usa el color del texto del contenedor */
+}
+
+.header-content {
+  margin-top: 30px; /* Ajusta este valor para bajar el contenido del encabezado */
+}
+
+/* Mensajes de alertas */
+.alert-container {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  z-index: 1000;
+}
+
+.alert {
+  margin-bottom: 10px;
+  padding: 15px;
+  border-radius: 4px;
+  transition: opacity 0.5s ease, transform 0.5s ease;
+  opacity: 1;
+  transform: translateY(0);
+  font-size: 1rem;
+  color: #fff; /* Cambiar el color del texto si es necesario */
+}
+
+.alert.hidden {
+  opacity: 0;
+  transform: translateY(-20px); /* Opcional: Mueve el mensaje hacia arriba mientras se desvanece */
+}
+
+/* Estilos para diferentes tipos de alertas */
+.alert-success {
+  background-color: #d4edda; /* Verde claro para mensajes de éxito */
+  color: #155724; /* Color de texto oscuro para contraste */
+  border: 1px solid #c3e6cb; /* Borde verde claro */
+}
+
+.alert-error {
+  background-color: #f8d7da; /* Rojo claro para mensajes de error */
+  color: #721c24; /* Color de texto oscuro para contraste */
+  border: 1px solid #f5c6cb; /* Borde rojo claro */
+}
+
+.alert-info {
+  background-color: #d1ecf1; /* Azul claro para mensajes informativos */
+  color: #0c5460; /* Color de texto oscuro para contraste */
+  border: 1px solid #bee5eb; /* Borde azul claro */
+}
+
+.alert-warning {
+  background-color: #fff3cd; /* Amarillo claro para mensajes de advertencia */
+  color: #856404; /* Color de texto oscuro para contraste */
+  border: 1px solid #ffeeba; /* Borde amarillo claro */
+}

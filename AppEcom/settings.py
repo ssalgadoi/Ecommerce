@@ -11,12 +11,16 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
-import os
 from dotenv import load_dotenv
+from decouple import config
+import os
+
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
+# Cargar nuestras variables ambientales desde el archivo .env
+load_dotenv()
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
@@ -27,6 +31,7 @@ SECRET_KEY = 'django-insecure-xu_*$=@#2wa-td$r#0qgt@+iv_j8^ui#2)xjgrj$=qnk$erbo+
 DEBUG = True
 
 ALLOWED_HOSTS = []
+CSRF_TRUSTED_ORIGINS = []
 
 
 # Application definition
@@ -44,19 +49,22 @@ INSTALLED_APPS = [
     'cart',
     'accounts',
     'payment',
+    'whitenoise.runserver_nostatic',
     
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # Asegúrate de que esté en la posición correcta
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+
 
 ROOT_URLCONF = 'AppEcom.urls'
 
@@ -88,11 +96,11 @@ WSGI_APPLICATION = 'AppEcom.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'CherryTienda',
-        'HOST': 'localhost',
-        'USER': 'postgres',
-        'PASSWORD': 123456,
-        'PORT':  5432
+        'NAME': config('DB_NAME'),
+        'HOST': config('DB_HOST'),
+        'USER': config('DB_USER'),
+        'PASSWORD': config('DB_PASSWORD'),
+        'PORT': config('DB_PORT', cast=int),  # Convertir a entero
     }
 }
 
@@ -131,9 +139,16 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [
-    '/Users/salgado/Desktop/Ecommerce/base/static',
-]
+STATICFILES_DIRS = ['/Users/salgado/Desktop/Ecommerce/base/static']
+
+
+
+# Configuración de WhiteNoise
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+#  Media config
+
 #  Media config
 
 MEDIA_URL = '/media/'
